@@ -1,8 +1,6 @@
 import { ComputedFields, defineDocumentType } from "contentlayer/source-files";
 import readingTime from "reading-time";
 
-import { unique } from "./utils/unique";
-
 const getActualHeroUrl = (hero?: string) =>
   hero ? (hero.startsWith("http") ? hero : `/static/images/blog/${hero}`) : "";
 
@@ -27,7 +25,7 @@ const computedFields: ComputedFields = {
           ?.map((it: string) => it.trim())
           ?.filter((it: string) => it.length > 0);
       } catch (e) {}
-      return unique([...filteredKeywords]);
+      return [...filteredKeywords];
     },
   },
   year: {
@@ -50,8 +48,8 @@ const Blog = defineDocumentType(() => ({
   fields: {
     title: { type: "string", required: true },
     date: { type: "string", required: true },
-    color: { type: "string", required: true },
-    excerpt: { type: "string" },
+    color: { type: "string" },
+    description: { type: "string" },
     hero: { type: "string" },
     heroSource: { type: "string" },
     link: { type: "string" },

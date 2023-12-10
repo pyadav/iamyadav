@@ -41,7 +41,7 @@ export default function RootLayout({
         </div>
       </div>
 
-      {children}
+      <div className="flex flex-col w-full max-w-3xl my-16">{children}</div>
 
       <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
         <a
