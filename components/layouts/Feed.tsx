@@ -52,8 +52,8 @@ interface FeedItemProps
   extends Omit<ComponentPropsWithoutRef<"article">, "className"> {
   action?: string;
   children?: ReactNode;
-  date?: Date | string;
-  description?: ReactNode;
+  publishedAt?: Date | string;
+  summary?: ReactNode;
   link?: string;
   meta?: ReactNode;
   title: string;
@@ -62,13 +62,16 @@ interface FeedItemProps
 function FeedItem({
   action,
   children,
-  description,
+  summary,
   link,
   title,
   ...rest
 }: FeedItemProps) {
-  const { date, meta, ...props } = {
-    date: "date" in rest && rest.date !== undefined ? rest.date : undefined,
+  const { publishedAt, meta, ...props } = {
+    publishedAt:
+      "publishedAt" in rest && rest.publishedAt !== undefined
+        ? rest.publishedAt
+        : undefined,
     meta: "meta" in rest && rest.meta !== undefined ? rest.meta : undefined,
     ...rest,
   };
@@ -77,10 +80,10 @@ function FeedItem({
     link && "group relative",
     "grid"
   );
-  const descriptionClasses = clsx(link && "relative z-10");
+  const summaryClasses = clsx(link && "relative z-10");
   const metaClasses = clsx(
     link && "relative z-10 order-first",
-    date !== undefined && "text-slate-400 dark:text-slate-500"
+    publishedAt !== undefined && "text-slate-400 dark:text-slate-500"
   );
   const content = (
     <>
@@ -97,15 +100,15 @@ function FeedItem({
       {meta !== undefined ? (
         <Meta className={metaClasses}>{meta}</Meta>
       ) : (
-        date !== undefined && (
-          <DateDisplay className={metaClasses} value={date} />
+        publishedAt !== undefined && (
+          <DateDisplay className={metaClasses} value={publishedAt} />
         )
       )}
       <Paragraph
-        as={typeof description === "string" ? undefined : "div"}
-        className={descriptionClasses}
+        as={typeof summary === "string" ? undefined : "div"}
+        className={summaryClasses}
       >
-        {description}
+        {summary}
       </Paragraph>
       {children}
     </>

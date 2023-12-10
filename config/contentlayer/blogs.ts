@@ -1,5 +1,39 @@
-import { ComputedFields, defineDocumentType } from "contentlayer/source-files";
+import {
+  ComputedFields,
+  defineDocumentType,
+  defineNestedType,
+} from "contentlayer/source-files";
 import readingTime from "reading-time";
+
+const BLOGS_DIR_NAME = "blogs";
+
+const Categories = ["Engineering", "Product", "Careers"] as const;
+const Image = defineNestedType(() => ({
+  name: "Image",
+  fields: {
+    src: { type: "string", required: true },
+    alt: { type: "string", required: true },
+    caption: { type: "markdown" },
+  },
+}));
+
+const Externals = defineNestedType(() => ({
+  name: "Externals",
+  fields: {
+    Medium: { type: "string" },
+    ProductHunt: { type: "string" },
+    Website: { type: "string" },
+  },
+}));
+
+const Review = defineNestedType(() => ({
+  name: "Review",
+  fields: {
+    biography: { type: "string" },
+    summary: { type: "markdown" },
+    avatar: { type: "nested", of: Image },
+  },
+}));
 
 const getActualHeroUrl = (hero?: string) =>
   hero ? (hero.startsWith("http") ? hero : `/static/images/blog/${hero}`) : "";
@@ -44,17 +78,17 @@ const computedFields: ComputedFields = {
 const Blog = defineDocumentType(() => ({
   name: "Blog",
   contentType: "mdx",
-  filePathPattern: "posts/**/*.mdx",
+  filePathPattern: `${BLOGS_DIR_NAME}/**/*.mdx`,
   fields: {
     title: { type: "string", required: true },
-    date: { type: "string", required: true },
+    publishedAt: { type: "string", required: true },
+    summary: { type: "string" },
     color: { type: "string" },
-    description: { type: "string" },
     hero: { type: "string" },
-    heroSource: { type: "string" },
-    link: { type: "string" },
-    inProgress: { type: "boolean" },
-    devToId: { type: "number" },
+    cover: { type: "nested", of: Image },
+    externals: { type: "nested", of: Externals },
+    category: { type: "enum", options: Categories },
+    tags: { type: "list", of: { type: "string" } },
     keywords: { type: "string" },
     status: {
       type: "enum",

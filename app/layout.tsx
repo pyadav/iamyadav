@@ -1,6 +1,6 @@
 import GoogleAnalytics from "@/components/GA";
 import Layout from "@/components/layouts/Main";
-import { inter, lexendDeca } from "app/fonts";
+import { inter, lexendDeca, wotfard } from "app/fonts";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={clsx(inter.variable, lexendDeca.className)}
+        className={clsx(inter.variable, lexendDeca.variable, wotfard.className)}
       >
         <ThemeProvider>
           <Layout>

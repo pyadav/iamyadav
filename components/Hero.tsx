@@ -1,61 +1,37 @@
-"use client";
+import type { FC, ReactNode } from "react";
 
-import { useEffect, useState } from "react";
-import { MdAlternateEmail } from "react-icons/md";
-import { TbBrandGithub, TbBrandLinkedin } from "react-icons/tb";
+import clsx from "clsx";
 
-const skills = ["Golang Developer", "Nodejs Developer", "React Developer"];
-const Hero = () => {
-  const [skill, setSkill] = useState(0);
+type HeroProps = {
+  title: string | ReactNode;
+  description?: string;
+  actions?: ReactNode;
+  className?: string;
+  minHeight?: boolean;
+};
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSkill((skill) => (skill + 1) % skills.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
+export const Hero: FC<HeroProps> = ({
+  title,
+  description,
+  actions,
+  className,
+  minHeight = true,
+}) => {
   return (
-    <div className="flex justify-center text-center lg:pt-5 lg:pb-7 lg:text-left">
-      <div className="flex max-w-[37rem] flex-col py-16 lg:pt-12 lg:pb-11">
-        <h1 className="mt-6 text-[1.75rem] font-extrabold leading-9 tracking-tight text-slate-900 dark:text-gray-200 md:text-4xl">
-          If you 👀 looking to hire a
-          <span className="relative inline-block developer">
-            🧑🏿‍💻 versatile developer
-          </span>
-        </h1>
-
-        <div className="order-first flex items-center justify-center gap-4 text-[0.8125rem] leading-6 text-slate-500 dark:text-gray-400 lg:justify-start">
-          Contact me 👇
-        </div>
-        <div className="mt-10 flex justify-center gap-8 lg:justify-start">
-          <a
-            className="rounded-lg text-slate-900 font-semibold transition flex items-center gap-3 text-[0.8125rem] leading-6 py-1 px-1.5 hover:bg-slate-900/[0.03] -my-1 -mx-1.5 dark:text-gray-400"
-            href="https://github.com/pyadav"
-          >
-            <TbBrandGithub
-              aria-hidden
-              className="h-5 w-5 transition-transform group-hover:translate-x-0.5"
-            />
-            Github
-          </a>
-          <a
-            className="rounded-lg text-slate-900 font-semibold transition flex items-center gap-3 text-[0.8125rem] leading-6 py-1 px-1.5 hover:bg-slate-900/[0.03] -my-1 -mx-1.5 dark:text-gray-400"
-            href="https://www.linkedin.com/in/iamya6av"
-          >
-            <TbBrandLinkedin style={{ marginTop: "-4" }} />
-            Linkedin
-          </a>
-          <a
-            className="rounded-lg text-slate-900 font-semibold transition flex items-center gap-3 text-[0.8125rem] leading-6 py-1 px-1.5 hover:bg-slate-900/[0.03] -my-1 -mx-1.5 dark:text-gray-400"
-            href="mailto:pyadav9678@gmail.com"
-          >
-            <MdAlternateEmail style={{ marginTop: "-4" }} />
-            Email me
-          </a>
-        </div>
-      </div>
+    <div
+      className={clsx(
+        "relative mx-auto flex max-w-2xl flex-col items-center justify-center",
+        minHeight ? "lg:h-[calc(100vh-30rem)] lg:max-h-[600px]" : "",
+        className
+      )}
+    >
+      <h1 className="text-center font-accent text-6xl font-bold md:text-7xl">
+        {title}
+      </h1>
+      <p className="my-5 text-center text-lg opacity-90 md:text-lg">
+        {description}
+      </p>
+      <div className="flex items-center justify-center">{actions}</div>
     </div>
   );
 };
-export default Hero;
