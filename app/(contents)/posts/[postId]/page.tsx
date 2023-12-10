@@ -20,5 +20,9 @@ export default function PostPage({ params }: PostPageProps) {
   const post = allBlogs.find(({ slug }) => slug === params.postId);
   if (!post?.body.code) return notFound();
 
-  return <MDXContent code={post.body.code} />;
+  return (
+    <div className="max-w-3xl mb-8 prose dark:prose-invert">
+      <MDXContent code={post.body.code} />
+    </div>
+  );
 }

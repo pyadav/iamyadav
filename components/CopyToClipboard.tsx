@@ -4,7 +4,8 @@ import { FaCheck } from "react-icons/fa6";
 
 import clsx from "clsx";
 import { useState } from "react";
-import { IconButton } from "./IconButton";
+import { IconButton } from "./primitive/IconButton";
+
 
 interface CopyToClipboardProps {
   value: string;

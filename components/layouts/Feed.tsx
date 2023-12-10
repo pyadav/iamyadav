@@ -6,10 +6,10 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { DateDisplay } from "../DateDisplay";
 
 
+import Link from "next/link";
 import { Meta } from "../Meta";
 import { Paragraph } from "../Paragraph";
 import { H3 } from "../primitive/H3";
-import { Link } from "../primitive/Link";
 
 interface FeedProps extends Omit<ComponentPropsWithoutRef<"div">, "className"> {
   appearance?: "grid" | "list";
