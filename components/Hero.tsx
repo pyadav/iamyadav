@@ -6,25 +6,7 @@ import { TbBrandGithub, TbBrandLinkedin } from "react-icons/tb";
 
 const skills = ["Golang Developer", "Nodejs Developer", "React Developer"];
 const Hero = () => {
-  const [views, setViews] = useState(null);
   const [skill, setSkill] = useState(0);
-
-  useEffect(() => {
-    const getAllBlogViews = async () => {
-      const response = await fetch("/api/views", {
-        method: "GET",
-      });
-      return response.json();
-    };
-    getAllBlogViews().then((data = []) => {
-      data = Array.isArray(data) ? data : [];
-      const count = data.reduce(
-        (acc: number, curr: any) => acc + Number(curr.count),
-        0
-      );
-      setViews(count);
-    });
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {

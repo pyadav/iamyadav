@@ -1,8 +1,10 @@
 import GoogleAnalytics from "@/components/GA";
+import Layout from "@/components/layouts/Main";
 import { inter, lexendDeca } from "app/fonts";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "./theme-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,16 +17,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
         className={clsx(inter.variable, lexendDeca.className)}
       >
-        {process.env.NEXT_PUBLIC_GA_TRACKING_ID &&
-        process.env.NODE_ENV === "production" ? (
-          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_TRACKING_ID} />
-        ) : null}
-        {children}
+        <ThemeProvider>
+          <Layout>
+            {process.env.NEXT_PUBLIC_GA_TRACKING_ID &&
+            process.env.NODE_ENV === "production" ? (
+              <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_TRACKING_ID} />
+            ) : null}
+            {children}
+          </Layout>
+        </ThemeProvider>
       </body>
     </html>
   );
