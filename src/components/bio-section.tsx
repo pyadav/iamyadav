@@ -18,10 +18,10 @@ export async function BioSection() {
   return (
     <AnimatedSection
       id="bio"
-      className="flex w-full justify-center px-6 pt-40 pb-[60px] sm:px-10"
+      className="flex justify-center  px-6 sm:px-10  py-16 sm:py-24"
       aria-labelledby="bio-heading"
     >
-      <div className="flex w-full max-w-[560px] flex-col items-start space-y-[18px] text-left text-[16px] leading-[150%] text-[#555555]">
+      <div className="flex flex-col items-start space-y-[18px] text-left text-[16px] leading-[150%] text-neutral-600">
         <h1 id="bio-heading" className="sr-only">
           Developer bio
         </h1>
@@ -36,7 +36,7 @@ export async function BioSection() {
           </AnimatedParagraph>
         ))}
 
-        <AnimatedInfoGroup delay={0.3} className="space-y-3 text-[#555555]">
+        <AnimatedInfoGroup delay={0.3} className="space-y-3 text-neutral-600">
           {INFO_PARAGRAPHS.map((paragraph) => (
             <p key={paragraph.id}>{renderInlineNodes(paragraph.nodes)}</p>
           ))}

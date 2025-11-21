@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
+import { cacheLife } from "next/cache";
 import { notFound } from "next/navigation";
 
-import { projects } from "~/content/projects";
+import { getProject, getProjects } from "~/content/projects";
 
 type Params = {
   slug: string;
 };
 
-export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+export async function generateStaticParams() {
+  "use cache";
+  cacheLife("max");
+
+  const projectList = await getProjects();
+  return projectList.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({
@@ -16,11 +21,12 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }): Promise<Metadata> {
+  "use cache";
+  cacheLife("max");
+
   const { slug } = await params;
-  const project = projects.find((item) => item.slug === slug);
-  if (!project) {
-    return {};
-  }
+  const project = await getProject(slug);
+  if (!project) return {};
 
   return {
     title: project.metadata.title,
@@ -33,11 +39,12 @@ export default async function ProjectPage({
 }: {
   params: Promise<Params>;
 }) {
+  "use cache";
+  cacheLife("max");
+
   const { slug } = await params;
-  const project = projects.find((item) => item.slug === slug);
-  if (!project) {
-    notFound();
-  }
+  const project = await getProject(slug);
+  if (!project) notFound();
 
   const Content = project.Content;
   const formatter = new Intl.DateTimeFormat("en-US", {
@@ -47,7 +54,7 @@ export default async function ProjectPage({
   });
 
   return (
-    <article className="mx-auto w-full max-w-3xl px-6 py-16 text-neutral-800">
+    <article className="prose lg:prose-md mx-auto w-full max-w-2xl px-6 py-16 text-neutral-600">
       <header className="space-y-2 pb-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
           Project
@@ -73,7 +80,7 @@ export default async function ProjectPage({
           </a>
         ) : null}
       </header>
-      <div className="space-y-6 text-[15px] leading-relaxed text-neutral-800">
+      <div className="space-y-6 text-[15px] leading-relaxed text-neutral-600">
         <Content />
       </div>
     </article>

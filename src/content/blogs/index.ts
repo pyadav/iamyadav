@@ -1,17 +1,23 @@
-import FounderFridays, {
-  metadata as founderFridaysMeta,
-} from "./founder-fridays.mdx";
-import type { ContentEntry } from "~/content/types";
+import { loadContentEntries, loadContentEntry } from "~/content/loaders";
+import type { BaseContentMetadata, ContentEntry } from "~/content/types";
 
-export const blogPosts = [
-  {
-    slug: "founder-fridays-notes",
-    href: "/blogs/founder-fridays-notes",
-    metadata: founderFridaysMeta,
-    Content: FounderFridays,
-  },
-] satisfies ContentEntry[];
+export type BlogMetadata = BaseContentMetadata & {
+  thumbnail?: {
+    src: string;
+    alt: string;
+    accent?: string;
+  };
+};
 
-export const blogPostMap = Object.fromEntries(
-  blogPosts.map((post) => [post.slug, post]),
-);
+export type BlogEntry = ContentEntry<BlogMetadata>;
+
+export async function getBlogPosts() {
+  return loadContentEntries<BlogMetadata>("blogs");
+}
+
+export async function getBlogPost(slug: string) {
+  return loadContentEntry<BlogMetadata>("blogs", slug);
+}
+
+export type BlogPost = Awaited<ReturnType<typeof getBlogPost>>;
+export type BlogPostList = Awaited<ReturnType<typeof getBlogPosts>>;

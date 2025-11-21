@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
+import { cacheLife } from "next/cache";
 import { notFound } from "next/navigation";
 
-import { blogPosts } from "~/content/blogs";
+import { getBlogPost, getBlogPosts } from "~/content/blogs";
 
 type Params = {
   slug: string;
 };
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+export async function generateStaticParams() {
+  "use cache";
+  cacheLife("max");
+
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
@@ -16,11 +21,12 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }): Promise<Metadata> {
+  "use cache";
+  cacheLife("max");
+
   const { slug } = await params;
-  const post = blogPosts.find((item) => item.slug === slug);
-  if (!post) {
-    return {};
-  }
+  const post = await getBlogPost(slug);
+  if (!post) return {};
 
   return {
     title: post.metadata.title,
@@ -33,8 +39,11 @@ export default async function BlogPostPage({
 }: {
   params: Promise<Params>;
 }) {
+  "use cache";
+  cacheLife("max");
+
   const { slug } = await params;
-  const post = blogPosts.find((item) => item.slug === slug);
+  const post = await getBlogPost(slug);
   if (!post) notFound();
 
   const Content = post.Content;
@@ -45,7 +54,7 @@ export default async function BlogPostPage({
   });
 
   return (
-    <article className="mx-auto w-full max-w-3xl px-6 py-16 text-neutral-800">
+    <article className="prose lg:prose-md mx-auto w-full max-w-2xl px-6 py-16 text-neutral-600">
       <header className="space-y-2 pb-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
           Notes
@@ -61,7 +70,7 @@ export default async function BlogPostPage({
           {formatter.format(new Date(post.metadata.publishedAt))}
         </time>
       </header>
-      <div className="space-y-6 text-[15px] leading-relaxed text-neutral-800">
+      <div className="space-y-6 text-[15px] leading-relaxed text-neutral-600">
         <Content />
       </div>
     </article>

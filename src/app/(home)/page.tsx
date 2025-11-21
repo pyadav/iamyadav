@@ -1,14 +1,9 @@
 import { BioSection } from "~/components/bio-section";
-import { BlogSection, ProjectsSection } from "~/components/home-sections";
 
 export default function Home() {
   return (
-    <main className="min-h-screen w-full bg-white selection:bg-neutral-200 selection:text-neutral-900">
+    <main className="min-h-screen w-full max-w-2xl mx-auto flex flex-col gap-4 justify-center">
       <BioSection />
-      <section className="flex w-full flex-col items-center bg-white">
-        <ProjectsSection />
-        <BlogSection />
-      </section>
     </main>
   );
 }

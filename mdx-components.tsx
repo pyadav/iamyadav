@@ -28,7 +28,7 @@ const components: MDXComponents = {
   ),
   h4: (props: HeadingProps) => <h4 className="font-medium" {...props} />,
   p: (props: ParagraphProps) => (
-    <p className="text-gray-800 dark:text-zinc-300 leading-snug" {...props} />
+    <p className="text-neutral-600 dark:text-zinc-300" {...props} />
   ),
   ol: (props: ListProps) => (
     <ol
@@ -38,7 +38,7 @@ const components: MDXComponents = {
   ),
   ul: (props: ListProps) => (
     <ul
-      className="text-gray-800 dark:text-zinc-300 list-disc pl-5 space-y-1"
+      className="text-neutral-600 dark:text-zinc-300 list-disc pl-5"
       {...props}
     />
   ),
