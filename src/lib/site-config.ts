@@ -1,13 +1,7 @@
-import { IBM_Plex_Mono, Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -17,8 +11,7 @@ export const config = {
   title: "I am yadav",
   description: "Developer and entrepreneur",
   fonts: {
-    inter,
-    ibmPlexMono,
+    spaceGrotesk,
   },
 };
 

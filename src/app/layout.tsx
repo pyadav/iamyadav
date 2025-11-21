@@ -4,7 +4,7 @@ import { config } from "~/lib/site-config";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const { inter, ibmPlexMono } = config.fonts;
+const { spaceGrotesk } = config.fonts;
 
 export const metadata: Metadata = {
   metadataBase: new URL(config.url),
@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable}`}>
+    <html lang="en" className={`${spaceGrotesk.variable}`}>
       <body className="antialiased">
         {children}
         <Analytics />

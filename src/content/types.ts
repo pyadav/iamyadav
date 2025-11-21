@@ -7,11 +7,10 @@ export type BaseContentMetadata = {
   externalUrl?: string;
 };
 
-export type ContentEntry<
-  TMeta extends BaseContentMetadata = BaseContentMetadata,
-> = {
-  slug: string;
-  href: string;
-  metadata: TMeta;
-  Content: ComponentType;
-};
+export type ContentEntry<T extends BaseContentMetadata = BaseContentMetadata> =
+  {
+    slug: string;
+    href: string;
+    metadata: T;
+    Content: ComponentType;
+  };
