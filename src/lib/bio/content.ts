@@ -1,5 +1,4 @@
-import { Github, Twitter } from "lucide-react";
-import type { BioParagraph, InfoParagraph, SocialLink } from "~/lib/bio/types";
+import type { BioParagraph, InfoParagraph } from "~/lib/bio/types";
 
 export const BIO_PARAGRAPHS: readonly BioParagraph[] = [
   {
@@ -64,22 +63,5 @@ export const INFO_PARAGRAPHS: readonly InfoParagraph[] = [
       },
       { kind: "text", value: "." },
     ],
-  },
-];
-
-export const SOCIAL_LINKS: readonly SocialLink[] = [
-  {
-    id: "x",
-    label: "X (Twitter)",
-    href: "https://x.com/iamya6av",
-    icon: Twitter,
-    delay: 0.3,
-  },
-  {
-    id: "github",
-    label: "GitHub",
-    href: "https://github.com/pyadav",
-    icon: Github,
-    delay: 0.35,
   },
 ];

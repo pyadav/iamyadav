@@ -25,11 +25,3 @@ export type InfoParagraph = {
   id: string;
   nodes: readonly InlineNode[];
 };
-
-export type SocialLink = {
-  id: string;
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  delay: number;
-};

@@ -5,16 +5,10 @@ import { Fragment } from "react";
 
 import {
   AnimatedInfoGroup,
-  AnimatedNav,
   AnimatedParagraph,
   AnimatedSection,
-  AnimatedSocialLink,
 } from "~/components/animated-primitives";
-import {
-  BIO_PARAGRAPHS,
-  INFO_PARAGRAPHS,
-  SOCIAL_LINKS,
-} from "~/lib/bio/content";
+import { BIO_PARAGRAPHS, INFO_PARAGRAPHS } from "~/lib/bio/content";
 import type { InlineNode } from "~/lib/bio/types";
 
 export async function BioSection() {
@@ -24,7 +18,7 @@ export async function BioSection() {
   return (
     <AnimatedSection
       id="bio"
-      className="flex w-full justify-center px-6 pt-40 pb-[200px] sm:px-10"
+      className="flex w-full justify-center px-6 pt-40 pb-[60px] sm:px-10"
       aria-labelledby="bio-heading"
     >
       <div className="flex w-full max-w-[560px] flex-col items-start space-y-[18px] text-left text-[16px] leading-[150%] text-[#555555]">
@@ -47,25 +41,6 @@ export async function BioSection() {
             <p key={paragraph.id}>{renderInlineNodes(paragraph.nodes)}</p>
           ))}
         </AnimatedInfoGroup>
-
-        <AnimatedNav aria-label="Social links" className="pt-6" delay={0.35}>
-          <ul className="flex items-center gap-4 text-[#C7C7C7]">
-            {SOCIAL_LINKS.map((social) => (
-              <li key={social.id}>
-                <AnimatedSocialLink
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={social.label}
-                  className="inline-flex items-center text-inherit"
-                  delay={social.delay}
-                >
-                  <social.icon size={20} strokeWidth={1.5} />
-                </AnimatedSocialLink>
-              </li>
-            ))}
-          </ul>
-        </AnimatedNav>
       </div>
     </AnimatedSection>
   );

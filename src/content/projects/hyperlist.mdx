@@ -1,0 +1,27 @@
+export const metadata = {
+  title: "Hyperlist",
+  summary: "A minimal Hacker News reader with offline sync and ambient sound cues.",
+  publishedAt: "2024-07-15",
+  externalUrl: "https://hyperlist.app",
+};
+
+# Hyperlist
+
+Hyperlist started as a weekend experiment to make Hacker News feel less like a
+screenshot from 2007 and more like a studio monitor. The interface is split into
+three lightweight panes that can be rearranged with a keyboard shortcut. I wrote
+custom parsers for HN threads so I could progressively stream comments and mark
+responses that mention the author.
+
+## Highlights
+
+- Designed a typography system that keeps 30+ comments on screen without feeling
+  cramped.
+- Built an offline worker that mirrors saved stories to IndexedDB with background
+  refresh intervals.
+- Added a subtle audio cue when new replies land so I can keep coding with the
+  tab in the background.
+
+## Stack
+
+Next.js 16, React 19, Workers KV, Cloudflare Pages, Tailwind

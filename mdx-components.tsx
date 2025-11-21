@@ -1,5 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 import Link from "next/link";
+import type { Route } from "next";
 import type { ComponentPropsWithoutRef } from "react";
 
 type HeadingProps = ComponentPropsWithoutRef<"h1">;
@@ -53,7 +54,7 @@ const components: MDXComponents = {
       "text-blue-500 hover:text-blue-700 dark:text-gray-400 hover:dark:text-gray-300 dark:underline dark:underline-offset-2 dark:decoration-gray-800";
     if (href?.startsWith("/")) {
       return (
-        <Link href={href} className={className} {...props}>
+        <Link href={href as Route} className={className} {...props}>
           {children}
         </Link>
       );

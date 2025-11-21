@@ -64,21 +64,6 @@ export function AnimatedInfoGroup({
   );
 }
 
-type NavProps = HTMLMotionProps<"nav"> & { delay?: number };
-export function AnimatedNav({ children, delay = 0, ...props }: NavProps) {
-  return (
-    <motion.nav
-      {...props}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ ...baseTransition, delay }}
-    >
-      {children}
-    </motion.nav>
-  );
-}
-
 type SocialLinkProps = HTMLMotionProps<"a"> & { delay?: number };
 export function AnimatedSocialLink({
   children,
