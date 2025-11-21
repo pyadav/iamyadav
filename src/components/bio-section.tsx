@@ -1,121 +1,30 @@
-"use client";
-
-import { motion } from "motion/react";
-import type { LucideIcon } from "lucide-react";
-import { Github, Twitter } from "lucide-react";
-import type { ReactNode } from "react";
+import { cacheLife } from "next/cache";
 import Link from "next/link";
+import type { Route } from "next";
+import { Fragment } from "react";
 
-type ParagraphConfig = {
-  id: string;
-  content: ReactNode;
-  delay: number;
-  className?: string;
-};
+import {
+  AnimatedInfoGroup,
+  AnimatedNav,
+  AnimatedParagraph,
+  AnimatedSection,
+  AnimatedSocialLink,
+} from "~/components/animated-primitives";
+import {
+  BIO_PARAGRAPHS,
+  INFO_PARAGRAPHS,
+  SOCIAL_LINKS,
+} from "~/lib/bio/content";
+import type { InlineNode } from "~/lib/bio/types";
 
-const bioParagraphs: ParagraphConfig[] = [
-  {
-    id: "intro",
-    delay: 0,
-    className: "drop-cap",
-    content: (
-      <>
-        <span className="font-semibold">I&apos;m yadav -</span> building digital
-        software at &nbsp;
-        <Link href="https://missing.studio" className="link-muted">
-          Missing Studio
-        </Link>
-      </>
-    ),
-  },
-  {
-    id: "current",
-    delay: 0.1,
+export async function BioSection() {
+  "use cache";
+  cacheLife("max");
 
-    content: (
-      <>
-        I am running a dev studio working with AI teams to build interfaces,
-        systems, and marketing sites. I care about beautiful interfaces,
-        scalable systems, and thoughtful product experiences.
-      </>
-    ),
-  },
-];
-
-type InlineNode =
-  | { type: "text"; value: string }
-  | { type: "link"; label: string; href: string };
-
-const infoParagraphs: Array<{ id: string; nodes: InlineNode[] }> = [
-  {
-    id: "updates",
-    nodes: [
-      { type: "text", value: "I share notes and updates on " },
-      {
-        type: "link",
-        label: "X",
-        href: "https://x.com/iamya6av",
-      },
-      { type: "text", value: ", and open-source code on " },
-      {
-        type: "link",
-        label: "Github",
-        href: "https://github.com/pyadav",
-      },
-      { type: "text", value: "." },
-    ],
-  },
-  {
-    id: "contact",
-    nodes: [
-      { type: "text", value: "For collaborations, reach me at " },
-      {
-        type: "link",
-        label: "praveen.yadav@missing.studio",
-        href: "mailto:praveen.yadav@missing.studio",
-      },
-      { type: "text", value: "." },
-    ],
-  },
-];
-
-const socials: Array<{
-  id: string;
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  delay: number;
-}> = [
-  {
-    id: "x",
-    label: "X (Twitter)",
-    href: "https://x.com/iamya6av",
-    icon: Twitter,
-    delay: 0.3,
-  },
-  {
-    id: "github",
-    label: "GitHub",
-    href: "https://github.com/pyadav",
-    icon: Github,
-    delay: 0.35,
-  },
-];
-
-const fadeIn = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-};
-
-export function BioSection() {
   return (
-    <motion.section
+    <AnimatedSection
       id="bio"
       className="flex w-full justify-center px-6 pt-40 pb-[200px] sm:px-10"
-      initial="initial"
-      whileInView="whileInView"
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
       aria-labelledby="bio-heading"
     >
       <div className="flex w-full max-w-[560px] flex-col items-start space-y-[18px] text-left text-[16px] leading-[150%] text-[#555555]">
@@ -123,89 +32,82 @@ export function BioSection() {
           Developer bio
         </h1>
 
-        {bioParagraphs.map((paragraph) => (
-          <motion.p
+        {BIO_PARAGRAPHS.map((paragraph) => (
+          <AnimatedParagraph
             key={paragraph.id}
+            delay={paragraph.delay}
             className={`text-balance ${paragraph.className ?? ""}`}
-            initial={fadeIn.initial}
-            whileInView={fadeIn.whileInView}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.6,
-              ease: "easeOut",
-              delay: paragraph.delay,
-            }}
           >
-            {paragraph.content}
-          </motion.p>
+            {renderInlineNodes(paragraph.nodes)}
+          </AnimatedParagraph>
         ))}
 
-        <motion.div
-          className="space-y-3 text-[#555555]"
-          initial={fadeIn.initial}
-          whileInView={fadeIn.whileInView}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-        >
-          {infoParagraphs.map((paragraph) => (
-            <p key={paragraph.id}>
-              {paragraph.nodes.map((node, index) =>
-                node.type === "text" ? (
-                  <span key={`${paragraph.id}-text-${index}`}>
-                    {node.value}
-                  </span>
-                ) : (
-                  <Link
-                    key={`${paragraph.id}-link-${node.label}`}
-                    href={node.href}
-                    className="link-muted"
-                  >
-                    {node.label}
-                  </Link>
-                ),
-              )}
-            </p>
+        <AnimatedInfoGroup delay={0.3} className="space-y-3 text-[#555555]">
+          {INFO_PARAGRAPHS.map((paragraph) => (
+            <p key={paragraph.id}>{renderInlineNodes(paragraph.nodes)}</p>
           ))}
-        </motion.div>
+        </AnimatedInfoGroup>
 
-        <motion.nav
-          aria-label="Social links"
-          className="pt-6"
-          initial={fadeIn.initial}
-          whileInView={fadeIn.whileInView}
-          transition={{
-            duration: 0.6,
-            ease: "easeOut",
-            delay: 0.35,
-          }}
-          viewport={{ once: true }}
-        >
+        <AnimatedNav aria-label="Social links" className="pt-6" delay={0.35}>
           <ul className="flex items-center gap-4 text-[#C7C7C7]">
-            {socials.map((social) => (
+            {SOCIAL_LINKS.map((social) => (
               <li key={social.id}>
-                <motion.a
+                <AnimatedSocialLink
                   href={social.href}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={social.label}
                   className="inline-flex items-center text-inherit"
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  whileHover={{ y: -2, color: "#9A9A9A" }}
-                  transition={{
-                    duration: 0.5,
-                    ease: "easeOut",
-                    delay: social.delay,
-                  }}
-                  viewport={{ once: true }}
+                  delay={social.delay}
                 >
                   <social.icon size={20} strokeWidth={1.5} />
-                </motion.a>
+                </AnimatedSocialLink>
               </li>
             ))}
           </ul>
-        </motion.nav>
+        </AnimatedNav>
       </div>
-    </motion.section>
+    </AnimatedSection>
   );
+}
+
+function renderInlineNodes(nodes: readonly InlineNode[]) {
+  return nodes.map((node, index) => {
+    if (node.kind === "text") {
+      if (node.className) {
+        return (
+          <span key={`text-${index}`} className={node.className}>
+            {node.value}
+          </span>
+        );
+      }
+
+      return <Fragment key={`text-${index}`}>{node.value}</Fragment>;
+    }
+
+    const key = `link-${node.label}-${index}`;
+    if (node.external ?? isExternalHref(node.href)) {
+      return (
+        <a
+          key={key}
+          href={node.href}
+          className="link-muted"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {node.label}
+        </a>
+      );
+    }
+
+    return (
+      <Link key={key} href={node.href as Route} className="link-muted">
+        {node.label}
+      </Link>
+    );
+  });
+}
+
+function isExternalHref(href: string) {
+  return /^(https?:\/\/|mailto:|tel:)/.test(href);
 }
